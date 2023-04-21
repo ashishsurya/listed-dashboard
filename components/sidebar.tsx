@@ -30,21 +30,21 @@ export const SidebarFooter = () => {
 export const SidebarLinks = () => {
   return (
     <div className='flex flex-col space-y-3 mt-5 flex-1'>
-      <SidebarLink icon={<PieChart size={20} />} text='Dashboard' active />
-      <SidebarLink icon={<Tag size={20} />} text='Transactions' />
-      <SidebarLink icon={<CalendarDays size={20} />} text='Schedules' />
-      <SidebarLink icon={<User size={20} />} text='Users' />
-      <SidebarLink icon={<Settings size={20} />} text='Settings' />
+      <SidebarLink Icon={PieChart} text='Dashboard' active />
+      <SidebarLink Icon={Tag} text='Transactions' />
+      <SidebarLink Icon={CalendarDays} text='Schedules' />
+      <SidebarLink Icon={User} text='Users' />
+      <SidebarLink Icon={Settings} text='Settings' />
     </div>
   );
 };
 
 export const SidebarLink = ({
-  icon,
+  Icon,
   text,
   active = false,
 }: {
-  icon: JSX.Element;
+  Icon: LucideIcon;
   text: string;
   active?: boolean;
 }) => {
@@ -55,7 +55,7 @@ export const SidebarLink = ({
         active ? 'text-white' : 'text-slate-400'
       }`}
     >
-      {icon}
+      <Icon size={20}/>
       <p>{text}</p>
     </Link>
   );
