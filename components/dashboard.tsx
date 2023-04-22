@@ -1,18 +1,47 @@
 import {
+  Banknote,
   Bell,
   LucideIcon,
-  Banknote,
   Tags,
   ThumbsUp,
   Users,
 } from 'lucide-react';
 import Image from 'next/image';
+import { Line, Pie } from 'react-chartjs-2';
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 export const Dashboard = () => {
   return (
-    <div className='flex-[8] p-8 flex flex-col space-y-2'>
+    <div className='flex-[8] p-8 gap-8 flex flex-col space-y-2 overflow-y-scroll'>
       <DashboardHeader />
       <DataCards />
+      <ActivitiesChart />
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <TopProducts />
+        <TodaysSchedule />
+      </div>
     </div>
   );
 };
@@ -87,6 +116,196 @@ export const DataCard = ({
       <Icon className='self-end' />
       <p className='text-sm'>{title}</p>
       <p className='text-2xl font-bold'>{value}</p>
+    </div>
+  );
+};
+
+export const ActivitiesChart = () => {
+  const data = {
+    labels: ['', 'Week 1', 'Week 2', 'Week 3', 'Week 4', ''],
+    datasets: [
+      {
+        label: 'User',
+        data: [100, 405, 250, 450, 190, 250],
+        fill: false,
+        borderColor: '#9BDD7C',
+        tension: 0.4,
+      },
+      {
+        label: 'Guest',
+        data: [100, 390, 200, 300, 220, 440],
+        fill: false,
+        borderColor: '#E9A0A0',
+        tension: 0.4,
+      },
+    ],
+  };
+
+  return (
+    <div className='flex flex-col bg-white rounded-[20px]'>
+      <h3 className='text-xl font-bold px-8 mt-2'>Activities</h3>
+      <div className='flex items-center space-x-3 px-8 mt-2'>
+        <p className='text-slate-500 flex-1'>May-June 2021</p>
+        <div className='flex items-center space-x-2 '>
+          <div className='w-2 h-2 rounded-full bg-[#E9A0A0]'></div>
+          <div>Guest</div>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <div className='w-2 h-2 rounded-full bg-[#9BDD7C]'></div>
+          <div>User</div>
+        </div>
+      </div>
+      <Line
+        height={25}
+        width={100}
+        data={data}
+        options={{
+          scales: {
+            y: {
+              min: 0,
+              max: 500,
+              ticks: {
+                stepSize: 100,
+              },
+              grid: {
+                display: true,
+              },
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+          elements: {
+            point: {
+              radius: 0,
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          maintainAspectRatio: true,
+        }}
+        className='bg-white h-full'
+      />
+    </div>
+  );
+};
+
+export const TopProducts = () => {
+  const data = {
+    labels: ['Basic Tees', 'Custom Short Pants', 'Super hoodies'],
+    datasets: [
+      {
+        backgroundColor: ['#98D89E', '#F6DC7D', '#EE8484'],
+        data: [55, 31, 14],
+      },
+    ],
+  };
+  return (
+    <div className='p-4 rounded-[20px] bg-white'>
+      <div className='flex items-center justify-between'>
+        <h3>Top Products</h3>
+        <p className='text-slate-500'>May-June 2021</p>
+      </div>
+      <div className='flex justify-between mt-4 px-8'>
+        <div className='w-[150px] h-[150px]'>
+          <Pie
+            data={data}
+            options={{
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              maintainAspectRatio: false,
+            }}
+          />
+        </div>
+        <div className='flex flex-col items-start justify-start'>
+          <PieChartLegend chipBg='#E9A0A0' title='Basic Tees' value='55' />
+          <PieChartLegend
+            chipBg='#F6DC7D'
+            title='Custom Short Pants'
+            value='31'
+          />
+          <PieChartLegend chipBg='#EE8484' title='Super Hoodies' value='14' />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const PieChartLegend = ({
+  chipBg,
+  value,
+  title,
+}: {
+  chipBg: string;
+  value: string;
+  title: string;
+}) => {
+  return (
+    <div className='flex flex-col'>
+      <div className='flex items-center space-x-2 '>
+        <div
+          className='w-2 h-2 rounded-full'
+          style={{ backgroundColor: chipBg }}
+        ></div>
+        <div>{title}</div>
+      </div>
+      <p className='text-slate-500 text-sm'>{value}%</p>
+    </div>
+  );
+};
+
+export const TodaysSchedule = () => {
+  return (
+    <div className='p-4 bg-white rounded-[20px]'>
+      <div className='flex justify-between items-center'>
+        <h2>Today's Schedule</h2>
+        <p>See All</p>
+      </div>
+      <div className='flex flex-col gap-3 mt-2 pl-4'>
+        <ScheduleComponent
+          color={'#9BDD7C'}
+          address='Sunset Road, Kuta , Bali'
+          timeSpan='14:00-15:00'
+          title='Meeting with suppliers from Kuta Bali'
+        />
+        <ScheduleComponent
+          color={'#6972C3'}
+          address='Central Jakarta '
+          timeSpan='18:00-20:00'
+          title='Check operation at Giga Factory 1'
+        />
+      </div>
+    </div>
+  );
+};
+
+export const ScheduleComponent = ({
+  color,
+  title,
+  address,
+  timeSpan,
+}: {
+  color: string;
+  title: string;
+  address: string;
+  timeSpan: string;
+}) => {
+  return (
+    <div
+      className='pl-3 border-l-4 flex flex-col text-sm text-slate-500'
+      style={{ borderColor: color }}
+    >
+      <p className='text-base text-slate-800 font-semibold'>{title}</p>
+      <p>{timeSpan}</p>
+      <p>at {address}</p>
     </div>
   );
 };

@@ -7,7 +7,7 @@ const monteserrat = Montserrat({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <div className={`flex min-h-screen p-10 ${monteserrat.className}`}>
+    <div className={`flex h-screen p-10 ${monteserrat.className}`}>
       <Sidebar />
       <Dashboard />
     </div>
