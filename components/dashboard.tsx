@@ -266,7 +266,7 @@ export const TodaysSchedule = () => {
   return (
     <div className='p-4 bg-white rounded-[20px]'>
       <div className='flex justify-between items-center'>
-        <h2>Today's Schedule</h2>
+        <h2>Today&apos; Schedule</h2>
         <p>See All</p>
       </div>
       <div className='flex flex-col gap-3 mt-2 pl-4'>
