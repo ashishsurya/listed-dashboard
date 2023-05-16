@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import { Montserrat } from 'next/font/google'
 import { Sidebar } from '@/components/sidebar'
 import { Dashboard } from '@/components/dashboard'
 
+import { Montserrat } from 'next/font/google'
 const monteserrat = Montserrat({ subsets: ['latin'] })
 
 export default function Home() {
