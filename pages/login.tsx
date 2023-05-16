@@ -2,6 +2,7 @@ import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
+import { toast } from 'react-hot-toast';
 const monteserrat = Montserrat({ subsets: ['latin'] });
 
 export default function LoginPage() {
@@ -30,7 +31,13 @@ export const LoginForm = () => {
         <SocialLoginButton provider='Apple' svgPath='/apple-1.svg' />
       </div>
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => {
+          e.preventDefault();
+          toast('According to guidlines only google sign in is implemented', {
+            icon: '💎',
+            className: 'font-mono',
+          });
+        }}
         className='px-8 py-4 bg-white mt-2 rounded-[20px] flex items-stretch flex-col w-full'
       >
         <div className='flex flex-col items-stretch gap-2'>
@@ -74,6 +81,11 @@ export const SocialLoginButton = ({
       onClick={() => {
         if (provider === 'Google') {
           signIn('google', { redirect: true, callbackUrl: '/' });
+        } else {
+          toast('According to guidlines only google sign in is implemented', {
+            icon: '💎',
+            className: 'font-mono',
+          });
         }
       }}
       className='flex bg-white px-4 py-2 items-center font-light gap-2 rounded-[10px]'
