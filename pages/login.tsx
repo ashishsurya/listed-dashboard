@@ -38,7 +38,7 @@ export const LoginForm = () => {
             className: 'font-mono',
           });
         }}
-        className='px-8 py-4 bg-white mt-2 rounded-[20px] flex items-stretch flex-col w-full'
+        className='px-8 py-4 bg-white mt-4 gap-4  rounded-[20px] flex items-stretch flex-col w-full'
       >
         <div className='flex flex-col items-stretch gap-2'>
           <label htmlFor=''>Email Address</label>
