@@ -1,6 +1,7 @@
 import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 const monteserrat = Montserrat({ subsets: ['latin'] });
 
 export default function LoginPage() {
@@ -65,11 +66,18 @@ export const SocialLoginButton = ({
   provider,
   svgPath,
 }: {
-  provider: string;
+  provider: 'Google' | 'Apple';
   svgPath: string;
 }) => {
   return (
-    <button className='flex bg-white px-4 py-2 items-center font-light gap-2 rounded-[10px]'>
+    <button
+      onClick={() => {
+        if (provider === 'Google') {
+          signIn('google', { redirect: true, callbackUrl: '/' });
+        }
+      }}
+      className='flex bg-white px-4 py-2 items-center font-light gap-2 rounded-[10px]'
+    >
       <Image src={svgPath} alt={provider} width={24} height={24} />
       <p>Sign in with {provider}</p>
     </button>

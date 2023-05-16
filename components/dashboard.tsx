@@ -20,6 +20,7 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
+import { signOut, useSession } from 'next-auth/react';
 
 ChartJS.register(
   CategoryScale,
@@ -47,6 +48,7 @@ export const Dashboard = () => {
 };
 
 export const DashboardHeader = () => {
+  const { data: session } = useSession();
   return (
     <div className='flex items-center justify-between'>
       <h2 className='text-4xl font-bold'>Dashboard</h2>
@@ -57,15 +59,17 @@ export const DashboardHeader = () => {
           placeholder='Search'
         />
         <Bell />
-        <Image
-          src={
-            'https://pbs.twimg.com/profile_images/1506852720648486914/8GDg7Fxh_400x400.jpg'
-          }
-          alt='profile-image'
-          width={52}
-          height={52}
-          className='rounded-full'
-        />
+        {session && (
+          <Image
+            title='Logout'
+            onClick={() => signOut({ callbackUrl: '/login', redirect: true })}
+            src={session.user?.image!}
+            alt='profile-image'
+            width={52}
+            height={52}
+            className='rounded-full cursor-pointer'
+          />
+        )}
       </div>
     </div>
   );
